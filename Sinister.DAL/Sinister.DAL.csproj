@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BA24C2FF-B449-4AC9-9E17-E5732F1FA09C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Sinister.DAL</RootNamespace>
+    <AssemblyName>Sinister.DAL</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\..\Prometheus\Prometheus.DAL\bin\Release\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="RefactorThis.DetachedUpdate">
+      <HintPath>..\..\Prometheus\Prometheus.DAL\bin\Release\RefactorThis.DetachedUpdate.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DAL.cs" />
+    <Compile Include="DB.cs" />
+    <Compile Include="Migrations\201309181821013_CoreCustomerMigration.cs" />
+    <Compile Include="Migrations\201309181821013_CoreCustomerMigration.Designer.cs">
+      <DependentUpon>201309181821013_CoreCustomerMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201309191723561_CoreCustomerMigration1.cs" />
+    <Compile Include="Migrations\201309191723561_CoreCustomerMigration1.Designer.cs">
+      <DependentUpon>201309191723561_CoreCustomerMigration1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201309191922069_CoreCustomerMigration2.cs" />
+    <Compile Include="Migrations\201309191922069_CoreCustomerMigration2.Designer.cs">
+      <DependentUpon>201309191922069_CoreCustomerMigration2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Vallidation.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sinister.Models.Core\Sinister.Models.Core.csproj">
+      <Project>{f01dfa42-c3c0-48d8-9ad6-b4ae5ca4f97a}</Project>
+      <Name>Sinister.Models.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sinister.Models.CRM\Sinister.Models.CRM.csproj">
+      <Project>{e4f614ee-d3e3-4b04-ac92-154d06093c0e}</Project>
+      <Name>Sinister.Models.CRM</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201309181821013_CoreCustomerMigration.resx">
+      <DependentUpon>201309181821013_CoreCustomerMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201309191723561_CoreCustomerMigration1.resx">
+      <DependentUpon>201309191723561_CoreCustomerMigration1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201309191922069_CoreCustomerMigration2.resx">
+      <DependentUpon>201309191922069_CoreCustomerMigration2.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

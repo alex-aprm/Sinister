@@ -15,8 +15,8 @@ namespace Sinister
 
             routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                url: "{controller}/{action}/{gid}",
+                defaults: new { controller = "Home", action = "Index", gid = UrlParameter.Optional }
             );
         }
     }

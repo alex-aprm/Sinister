@@ -1,0 +1,13 @@
+﻿@model Sinister.Models.Core.Dictionary
+
+@{ViewBag.Header = "Словарь";}
+
+@using (Html.BeginForm("Delete", "Dictionaries", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+@Html.ValidationSummary(true)
+<fieldset>
+<legend>Удаление словаря</legend>
+  <p> Удалить словарь @Model.Name?</p>
+    @Html.Partial("DeleteActions")
+</fieldset>
+}

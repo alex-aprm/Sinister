@@ -115,6 +115,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\DictionariesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -139,6 +141,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
+    <Content Include="Scripts\Custom\PrometheusForms.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
     <Content Include="Web.config" />
@@ -153,6 +156,17 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\Menu.cshtml" />
+    <Content Include="Views\Shared\Popular.cshtml" />
+    <Content Include="Views\Dictionaries\Create.cshtml" />
+    <Content Include="Views\Dictionaries\Delete.cshtml" />
+    <Content Include="Views\Dictionaries\Edit.cshtml" />
+    <Content Include="Views\Dictionaries\EditorTemplates\Dictionary.cshtml" />
+    <Content Include="Views\Dictionaries\EditorTemplates\DictionaryRecord.cshtml" />
+    <Content Include="Views\Dictionaries\Index.cshtml" />
+    <Content Include="Views\Shared\Actions.cshtml" />
+    <Content Include="Views\Shared\DeleteActions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

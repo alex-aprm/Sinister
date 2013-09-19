@@ -1,0 +1,13 @@
+﻿@model Sinister.Models.Core.Dictionary
+
+@{ViewBag.Header = "Словарь";}
+
+@using (Html.BeginForm("Edit", "Dictionaries", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+@Html.ValidationSummary(true)
+<fieldset>
+<legend>Изменение словаря</legend>
+@Html.EditorFor(m=>m)
+@Html.Partial("Actions")
+</fieldset>
+}

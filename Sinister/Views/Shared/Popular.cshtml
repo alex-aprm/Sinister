@@ -1,0 +1,6 @@
+﻿<ul class="nav nav-tabs nav-stacked">
+  <li><a href="@Url.Action("Create", "Tasks", new { Reset = true })">Добавить задачу</a></li>
+  <li><a href="@Url.Action("Index", "Tasks", new {Reset=true, OnlyOwn = true })">Мои текущие задачи</a></li>
+  <li><a href="@Url.Action("Index", "Tasks", new {Reset=true, OnlyOwn = true, OnlyCompleted = true })">Мои решенные задачи</a></li>
+  <li><a href="@Url.Action("Index","Projects", new {Reset=true,  OnlyOwn = true })">Мои проекты</a></li>
+</ul>

@@ -1,0 +1,34 @@
+﻿
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+    <div class="container">
+       <a class="brand" href="~/">Weathertop</a> 
+        
+     
+      <div class="btn-group">
+          <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">Проекты и задачи <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+             <li><a href="~/Projects?Reset=True">Все проекты</a></li>
+             <li><a href="~/Tasks?Reset=True">Все текущие задачи</a></li>
+             <li><a href="~/Tasks?Reset=True&OnlyCompleted=True">Все решенные задачи</a></li>
+          </ul>
+      </div>
+    
+      <div class="btn-group">
+          <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">Настройки <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+             <li><a href="~/Users?Reset=True">Пользователи</a></li>
+             <li><a href="~/Roles?Reset=True">Роли</a></li>
+          </ul>
+      </div>
+      
+      <div class="btn-group pull-right">
+         <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">@ViewBag.CurrentUser<span class="caret"></span></a>
+         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+              <li><a href="~/Users/Messsges">Сообщения</a></li>
+              <li><a href="~/Users/Profile">Профиль</a></li>   
+         </ul>
+      </div>
+      </div>
+    </div>
+</div>

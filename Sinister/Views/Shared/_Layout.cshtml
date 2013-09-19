@@ -7,6 +7,7 @@
         <meta name="viewport" content="width=device-width" />
         <link href="~/Content/bootstrap/bootstrap.css" rel="stylesheet" />
         <link href="~/Content/bootstrap/bootstrap-theme.css" rel="stylesheet" />
+        <link href="~/Content/Site.css" rel="stylesheet" />
     </head>
     <body>
 
@@ -22,21 +23,16 @@
     <a class="navbar-brand" href="#">Sinister</a>
   </div>
  <div class="collapse navbar-collapse navbar-ex1-collapse">
-    <ul class="nav navbar-nav">
-      <li class="active"><a href="#">Link</a></li>
-      <li><a href="#">Link</a></li>
-      <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-        <ul class="dropdown-menu">
-          <li><a href="#">Action</a></li>
-          <li><a href="#">Another action</a></li>
-          <li><a href="#">Something else here</a></li>
-          <li><a href="#">Separated link</a></li>
-          <li><a href="#">One more separated link</a></li>
-        </ul>
-      </li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
+     <ul class="nav navbar-nav">
+         <li class="dropdown">
+             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Настройки <b class="caret"></b></a>
+             <ul class="dropdown-menu">
+                 <li><a href="@Url.Action("Index","Dictionaries")">Словари</a></li>
+             </ul>
+         </li>
+     </ul>
+@RenderSection("Toolbar",false)
+         <ul class="nav navbar-nav navbar-right">
       <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Парамонов А.П. <b class="caret"></b></a>
         <ul class="dropdown-menu">
@@ -47,34 +43,24 @@
         </ul>
       </li>
     </ul>
-  </div><!-- /.navbar-collapse -->
-
-
+      </div><!-- /.navbar-collapse -->
 </nav>
 
-       @*@Html.Partial("Menu")
 
-
-  <div class="container-fluid">
-  <div class="row-fluid">
-    <div class="span2">
-        <p></p>
-        @Html.Partial("Popular")
-    </div>
-    <div class="span10">
-                <p></p>*@
-
-<div class="container">
-        @RenderBody()
-</div>
-    @*</div>
-  </div>
-</div>*@
-   @* <script type="text/javascript">
-        BindEvents();
-    </script>*@
+        <div class="col-md-2 col-lg-2 hidden-sm hidden-xs">LEFT</div>
+        <div class="col-md-10 col-lg-10">
+            <div id="header"><h3>@ViewBag.Header</h3></div>
+            @RenderBody()
+        </div> 
         <script src="~/Scripts/jquery-2.0.3.js"></script>
         <script src="~/Scripts/bootstrap.js"></script>
+        <script src="~/Scripts/Custom/PrometheusForms.js"></script>
+        <script type="text/javascript">
+            if ($('legend').length>0) {
+                $('div#header').html("");
+            }
+            BindEvents();
+        </script>
 
     </body>
 </html>
