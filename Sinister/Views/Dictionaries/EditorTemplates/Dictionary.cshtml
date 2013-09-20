@@ -1,0 +1,37 @@
+@model Sinister.Models.Core.Dictionary
+@Html.HiddenFor(m=>m.Gid)
+    <div class="form-group">
+			<label class="col-lg-2 col-md-2 col-sm-2 control-label">Название</label>
+			<div class="col-lg-4 col-md-4 col-sm-4">@Html.TextBoxFor(model => model.Name, new { @class = "form-control" })  @Html.ValidationMessageFor(model => model.Name)</div>
+	</div>
+    <div class="form-group">
+			<label class="col-lg-2 col-md-2 col-sm-2 control-label">SID</label>
+			<div class="col-lg-4 col-md-4 col-sm-4">@Html.TextBoxFor(model => model.SID, new { @class = "form-control" })  @Html.ValidationMessageFor(model => model.SID)</div>
+		</div>
+<div class="form-group">
+    <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-lg-4 col-md-4 col-sm-4">
+        <div class="btn-group">       
+            <input type="submit" class="btn btn-default btn-sm" data-refresh="recordslist" data-action="AddRecord" value="Добавить запись"/>
+            <input type="submit" class="btn btn-default btn-sm" data-refresh="recordslist" data-action="SortByName" value="Сортировать по алфавиту"/>
+        </div>
+    </div>
+</div>
+<div id="recordslist">
+@if (Model.RecordsCount > 0)
+{
+    <div class="panel panel-default" >
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Запись</th>
+                    <th>SID</th>
+                    <th style="width: 70px;"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @Html.EditorFor(model => model.Records)
+            </tbody>
+        </table>
+    </div>
+}</div>

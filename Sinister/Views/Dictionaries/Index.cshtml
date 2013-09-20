@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Sinister.Models.Core.Dictionary>
+
+@{ViewBag.Header = "Словари";}
+
+@section Toolbar{    
+    <a class="btn btn-primary navbar-btn" href="@Url.Action("Create")"><i class="glyphicon glyphicon-plus"></i> Создать словарь</a>
+}
+<div class="panel panel-default">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Словарь</th>
+          <th>SID</th>
+          <th>Записей</th>
+          <th style="width: 36px;"></th>
+        </tr>
+      </thead>
+      <tbody>
+@foreach (Sinister.Models.Core.Dictionary item in Model)
+{
+    <tr>
+        <td>
+            <a href="@Url.Action("Edit", new { gid = item.Gid })">@Html.DisplayFor(modelItem => item.Name)</a>
+        </td>
+       <td>
+            @Html.DisplayFor(modelItem => item.SID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RecordsCount)
+        </td>
+          <td>
+             <a href="@Url.Action("Delete", new { gid = item.Gid })"><i class="glyphicon glyphicon-remove"></i></a>
+          </td>
+    </tr>
+}
+</tbody>
+    </table>
+</div>

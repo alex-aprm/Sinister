@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>@ViewBag.Header - Sinister</title>
+        <meta name="viewport" content="width=device-width" />
+        <link href="~/Content/bootstrap/bootstrap.css" rel="stylesheet" />
+        <link href="~/Content/bootstrap/bootstrap-theme.css" rel="stylesheet" />
+        <link href="~/Content/Site.css" rel="stylesheet" />
+    </head>
+    <body>
+
+
+<nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="#">Sinister</a>
+  </div>
+ <div class="collapse navbar-collapse navbar-ex1-collapse">
+     <ul class="nav navbar-nav">
+         <li class="dropdown">
+             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Настройки <b class="caret"></b></a>
+             <ul class="dropdown-menu">
+                 <li><a href="@Url.Action("Index","Dictionaries")">Словари</a></li>
+             </ul>
+         </li>
+     </ul>
+@RenderSection("Toolbar",false)
+         <ul class="nav navbar-nav navbar-right">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Парамонов А.П. <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Action</a></li>
+          <li><a href="#">Another action</a></li>
+          <li><a href="#">Something else here</a></li>
+          <li><a href="#">Separated link</a></li>
+        </ul>
+      </li>
+    </ul>
+      </div><!-- /.navbar-collapse -->
+</nav>
+
+
+        <div class="col-md-2 col-lg-2 hidden-sm hidden-xs">LEFT</div>
+        <div class="col-md-10 col-lg-10">
+            <div id="header"><h3>@ViewBag.Header</h3></div>
+            @RenderBody()
+        </div> 
+        <script src="~/Scripts/jquery-2.0.3.js"></script>
+        <script src="~/Scripts/bootstrap.js"></script>
+        <script src="~/Scripts/Custom/PrometheusForms.js"></script>
+        <script type="text/javascript">
+            if ($('legend').length>0) {
+                $('div#header').html("");
+            }
+            BindEvents();
+        </script>
+
+    </body>
+</html>
