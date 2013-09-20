@@ -15,7 +15,6 @@ using System.Globalization;
 
 namespace Sinister
 {
-
     public class DecimalModelBinder : IModelBinder
     {
         public object BindModel(ControllerContext controllerContext,
@@ -69,7 +68,6 @@ namespace Sinister
         }
     }
    
-
     public class ClientNumberValidatorProvider : ClientDataTypeModelValidatorProvider
     {
         public override IEnumerable<ModelValidator> GetValidators(ModelMetadata metadata,
@@ -106,7 +104,6 @@ namespace Sinister
             };
         }
     }
-
 
     public static class God
     {
@@ -178,8 +175,6 @@ namespace Sinister
         }
     }
 
-
-
     public static class XMLHelpers
     {
         public static string ToIndentedString(this XmlDocument doc)
@@ -190,7 +185,6 @@ namespace Sinister
             return stringWriter.ToString();
         }
     }
-
 
     public static class Extensions
     {
@@ -220,5 +214,4 @@ namespace Sinister
         }
 
     }
-
 }
