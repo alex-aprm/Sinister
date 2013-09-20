@@ -108,7 +108,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\BaseControllers.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\DictionariesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />

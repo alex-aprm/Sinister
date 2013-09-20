@@ -10,7 +10,7 @@ using System.Reflection;
 
 namespace Sinister.Controllers
 {
-    public class BaseController : Controller
+    public abstract class BaseController : Controller
     {
         public BaseController() : base()
         {
@@ -20,10 +20,10 @@ namespace Sinister.Controllers
         protected Repository repository { get; set; }
     }
 
-    public class CRUDController<E,R> : BaseController where E : Entity, new() where R : EntityRepository<E>
+    public abstract class CRUDController<E,R> : BaseController where E : Entity, new() where R : EntityRepository<E>
     {
         protected R entityRepository;
-        public CRUDController():base()
+        protected CRUDController():base()
         {
             foreach (PropertyInfo pp in repository.GetType().GetProperties())
             {
@@ -73,17 +73,11 @@ namespace Sinister.Controllers
             return View(entity);
         }
 
-        //
-        // GET: /Dictionaries/Edit/5
-
         public ActionResult Edit(Guid gid)
         {
             E e = this.entityRepository.Get(gid);
             return View(e);
         }
-
-        //
-        // POST: /Dictionaries/Edit/5
 
         [HttpPost]
         public virtual ActionResult Edit(E entity, string SubAction, Guid? SubGid)
@@ -114,17 +108,11 @@ namespace Sinister.Controllers
             return View(entity);
         }
 
-        //
-        // GET: /Dictionaries/Delete/5
-
         public virtual ActionResult Delete(Guid gid)
         {
             E e = this.entityRepository.Get(gid);
             return View(e);
         }
-
-        //
-        // POST: /Dictionaries/Delete/5
 
         protected virtual E ProcessSubAction(E entity, string SubAction, Guid? SubGid)
         {
