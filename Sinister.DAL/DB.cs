@@ -21,7 +21,7 @@ namespace Sinister.DAL
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<Db, Configuration>());
         }
         public Db()
-            : base("Data Source=pc-alex;Initial Catalog=Sinister;Integrated Security=true") //Только для миграций из Студии
+            : base("Data Source=test-vsrv-dsoft;Initial Catalog=Sinister;Integrated Security=true") //Только для миграций из Студии
         {
             //throw new Exception(this.Database.Connection.ConnectionString.ToString());
         }

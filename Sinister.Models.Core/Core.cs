@@ -10,6 +10,10 @@ namespace Sinister.Models.Core
 {
     public abstract class Entity
     {
+        public Entity()
+        {
+        }
+
         [Key]
         public Guid Gid { get; set; }
 

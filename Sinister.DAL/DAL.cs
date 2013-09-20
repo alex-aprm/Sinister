@@ -69,7 +69,6 @@ namespace Sinister.DAL
         {
             try
             {
-
                 T dbent = db.Set<T>().Find(ent.Gid);
                 db.Set<T>().Remove(dbent);
                 db.SaveChanges();
@@ -108,12 +107,12 @@ namespace Sinister.DAL
             return d;
         }
     }
+
     public class Customers : EntityRepository<Customer>
     {
         public Customers(Db db)
             : base(db)
-        {
-        }
+        {}
     }
 
     public class Repository

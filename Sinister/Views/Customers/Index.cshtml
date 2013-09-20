@@ -1,0 +1,7 @@
+﻿@model IList<Sinister.Models.CRM.Customer>
+@ViewBag.Test
+@foreach (Sinister.Models.CRM.Customer c in Model)
+{
+    @Html.DisplayFor(m => c.Gid)<br />
+
+}
