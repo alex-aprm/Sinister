@@ -18,6 +18,9 @@ function getUrlVars(url) {
 }
 
 var backup;
+var cancel;
+var refreshId;
+
 function BindEvents() {
     //(".datepicker").remove();
     $('[data-date="True"]').each(function (e) {
@@ -36,9 +39,14 @@ function BindEvents() {
     $(".modal").on("show.bs.modal", function () {
         //id = $(this).attr("id");
         backup = $(this).find('div.modal-body').html();
+        cancel = false;
     });
     $(".modal").on("hidden.bs.modal", function () {
         $(this).find('div.modal-body').html(backup);
+        if (cancel) {
+            $("#" + refreshId).find("a[data-click='true'][data-toggle='remove']").click();
+            $("#" + refreshId).find("a[data-click='true'][data-toggle='remove']").attr("data-click", "");
+        }
     });
     //Модальные окна
     $('a[data-toggle="prometheusmodal"]').unbind("click");
@@ -87,25 +95,41 @@ function BindEvents() {
 
     $('input[type="submit"],button[type="submit"]').unbind("click");
     $('input[type="submit"],button[type="submit"]').bind("click", function(e) { submitHandler(e, this); });
-    
-    function submitHandler(e,that) {
+    $('a[role="button"]').unbind("click");
+    $('a[role="button"]').bind("click", function(e) { submitHandler(e, this); });
+
+    function submitHandler(e, that) {
         //ModalTarget = $(this).attr("data-target");
         //modalID = $(this).closest('div[data-modal="Wrapper"]').attr("id");
 
         var formId = $(that).closest("Form").attr("id");
-        if (formId == undefined) formId = ""; else formId = "#" + formId;
-        var subAction = $(that).attr("data-action");
-        if (subAction != undefined) SetField(formId, 'SubAction', subAction);
-        var refreshId = $(that).attr("data-refresh");
+        if (formId == undefined) formId = "";
+        else formId = "#" + formId;
+
+        var href = $(that).attr("href");
+        if (href != undefined) {
+            var params = getUrlVars(href);
+            jQuery.each(params, function(i, val) {
+                SetField(formId, val, params[val]);
+            });
+            href = href.split('?')[0];
+            $("Form" + formId).attr("action", href);
+        } else {
+            var subAction = $(that).attr("data-action");
+            if (subAction != undefined) SetField(formId, 'SubAction', subAction);
+        }
+        refreshId = "";
+        refreshId = $(that).attr("data-refresh");
         if (refreshId == undefined) refreshId = "";
         if (refreshId != "") {
+            e.preventDefault();
             $.ajax({
                 dataType: "html",
                 type: $('Form' + formId).attr('Method'),
                 url: $('Form' + formId).attr('Action'),
                 data: $('Form' + formId).serialize(),
-                success: function (data) {
- 
+                success: function(data) {
+
                     //if ($(data).find('#needlogin').html() != null) {
                     //    return;
                     //}
@@ -114,9 +138,13 @@ function BindEvents() {
                     //}
 
                     $('#' + refreshId).html($(data).find('#' + refreshId).html());
-                    backup = $(data).find('#' + refreshId + '_body').html();
+                    cancel = true;
+                     backup = $(data).find('#' + refreshId + '_body').html();
                     $(that).closest(".modal").modal('hide');
-
+                    
+                   
+                    $('#' + refreshId).find("a[data-click='true'][data-toggle='modal']").click();
+                    $('#' + refreshId).find("a[data-click='true'][data-toggle='modal']").attr("data-click", "");
                     //if ($(data).find('#' + refreshId).html() == undefined)
                     //if (ModalTarget != undefined) {
                     //   supresswizard=$(ModalTarget).attr("data-supresswizard");
@@ -135,55 +163,52 @@ function BindEvents() {
                     // if (SubAction == undefined ||SubAction=="")
                     // DecorateModal(modalID, ModalTarget);
                 }
-
             });
-            e.preventDefault();
         }
     }
-    $('a[role="button"]').unbind("click");
-    $('a[role="button"]').bind("click", function (e) {
-        ModalTarget = $(this).attr("data-target");
-        modalID = $(this).closest('div[data-modal="Wrapper"]').attr("id");
 
-        FormId = $(this).closest("Form").attr("id");
-        if (FormId == undefined) FormId = ""; else FormId = "#" + FormId;
-        e.preventDefault();
-        href = $(this).attr("href");
-        params = getUrlVars(href);
-        jQuery.each(params, function (i, val) {
-            SetField(FormId, val, params[val]);
-        });
-        href = href.split('?')[0];
-        $("Form" + FormId).attr("action", href);
-        refreshId = $(this).attr("data-refresh");
-        if (refreshId == undefined) refreshId = "";
-        if (refreshId != "") {
+//        ModalTarget = $(this).attr("data-target");
+//        modalID = $(this).closest('div[data-modal="Wrapper"]').attr("id");
 
-            $.ajax({
-                type: $('Form' + FormId).attr('Method'),
-                url: $('Form' + FormId).attr('Action'),
-                data: $('Form' + FormId).serialize(),
-                success: function (data) {
-                    if ($(data).find('#needlogin').html() != null) {
-                        return;
-                    }
-                    if ($(data).find('#error').html() != null) {
-                        return;
-                    }
-                    $('#' + refreshId).html($(data).find('#' + refreshId).html());
+//        FormId = $(this).closest("Form").attr("id");
+//        if (FormId == undefined) FormId = ""; else FormId = "#" + FormId;
+//        e.preventDefault();
+//        href = $(this).attr("href");
+//        params = getUrlVars(href);
+//        jQuery.each(params, function (i, val) {
+//            SetField(FormId, val, params[val]);
+//        });
+//        href = href.split('?')[0];
+//        $("Form" + FormId).attr("action", href);
+//        refreshId = $(this).attr("data-refresh");
+//        if (refreshId == undefined) refreshId = "";
+//        if (refreshId != "") {
+
+//            $.ajax({
+//                type: $('Form' + FormId).attr('Method'),
+//                url: $('Form' + FormId).attr('Action'),
+//                data: $('Form' + FormId).serialize(),
+//                success: function (data) {
+//                    if ($(data).find('#needlogin').html() != null) {
+//                        return;
+//                    }
+//                    if ($(data).find('#error').html() != null) {
+//                        return;
+//                    }
+//                    $('#' + refreshId).html($(data).find('#' + refreshId).html());
                    
-                    BindEvents();
+//                    BindEvents();
 
-                    if (SubAction == undefined)
-                    DecorateModal(modalID, ModalTarget);
+//                    if (SubAction == undefined)
+//                    DecorateModal(modalID, ModalTarget);
 
-                }
-            });
-        }
-        else {
-            $("Form" + FormId).submit();
-        }
-    });
+//                }
+//            });
+//        }
+//        else {
+//            $("Form" + FormId).submit();
+//        }
+//    });
 
 }
 

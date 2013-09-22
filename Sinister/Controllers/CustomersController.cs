@@ -17,7 +17,11 @@ namespace Sinister.Controllers
             switch (SubAction)
             {
                 case "AddIdentify":
-                    customer.Identifies.Add(new Identify());
+                    Identify i = new Identify();
+                    i.IsMain = true;
+                    i.IsValid = true;
+                    customer.Identifies.Add(i);
+                    ViewBag.NewGid = i.Gid;
                     break;
                 case "RemoveIdentify":
                     Identify RecordToRemove = customer.Identifies.First(s => s.Gid == (SubGid ?? Guid.Empty));
