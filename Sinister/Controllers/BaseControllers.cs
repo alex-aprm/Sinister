@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Xml.Serialization;
 using Sinister.DAL;
-using Sinister.Global;
+using Sinister;
 using Sinister.Models.Core;
 using System.Reflection;
 
@@ -14,7 +17,7 @@ namespace Sinister.Controllers
     {
         public BaseController() : base()
         {
-            string cstr = God.GetConnectionString("SinisterConnection");
+            string cstr = Sinister.God.GetConnectionString("SinisterConnection");
             this.repository = new Repository(cstr);
         }
         protected Repository repository { get; set; }
@@ -83,6 +86,7 @@ namespace Sinister.Controllers
         public virtual ActionResult Edit(E entity, string SubAction, Guid? SubGid)
         {
             entity = ProcessSubAction(entity, SubAction, SubGid);
+            entity = (E)ReadDictionaryProps(entity);
             if (SubAction == "")
             {
                 if (ModelState.IsValid)
@@ -101,11 +105,58 @@ namespace Sinister.Controllers
                     }
                     catch (Exception ex)
                     {
-                        ModelState.AddModelError("", ex.Message);
+                        string InnerMessage = "";
+                        if (ex.InnerException != null) InnerMessage = " ("+ex.InnerException.Message+")";
+                        ModelState.AddModelError("", ex.Message+InnerMessage);
                     }
                 }
             }
             return View(entity);
+        }
+
+        protected object ReadDictionaryProps(object entity)
+        {
+            if (entity == null) return null;
+            if (entity.GetType().FullName == "Sinister.Models.Core.Dictionary") return entity;
+            foreach (PropertyInfo pp in entity.GetType().GetProperties())
+            {
+                if (pp.PropertyType.FullName == "Sinister.Models.Core.DictionaryRecord")
+                {
+                    PropertyInfo ppg = entity.GetType().GetProperty(pp.Name + "Gid");
+                    DictionaryRecord d = (DictionaryRecord)pp.GetValue(entity);
+                    if (d != null)
+                        d = (DictionaryRecord) repository.Dictionaries.GetRecord(d.Gid);
+                    else
+                    {
+                        d = (DictionaryRecord)repository.Dictionaries.GetRecord(((Guid?)ppg.GetValue(entity))??Guid.Empty);
+                    }
+                    if (d != null) d = (DictionaryRecord)d.GetRidOfProxies();
+                    pp.SetValue(entity, d);
+                } else
+                if (pp.PropertyType.BaseType!=null && pp.CanWrite)
+                    if (pp.PropertyType.BaseType.FullName == "Sinister.Models.Core.Entity")
+                    { 
+                        Entity e = (Entity)pp.GetValue(entity);
+                        e = (Entity)ReadDictionaryProps(e);
+                        pp.SetValue(entity, e);
+                    }
+                if (pp.PropertyType.IsGenericType)
+                {
+                    if (pp.PropertyType.GenericTypeArguments.FirstOrDefault(g => g.BaseType == typeof(Entity)) != null)
+                    {
+                        ConstructorInfo ci = pp.PropertyType.GetConstructor(new Type[] { });
+                        IList dstlist = (IList)ci.Invoke(new object[] { });
+                        foreach (Entity ce in (IList)pp.GetValue(entity))
+                        {
+                            Entity cec = (Entity)ReadDictionaryProps(ce);
+                            dstlist.Add(cec);
+                        }
+                        pp.SetValue(entity, dstlist);
+                    }
+                }
+
+            }
+            return entity;
         }
 
         public virtual ActionResult Delete(Guid gid)
@@ -140,6 +191,29 @@ namespace Sinister.Controllers
                 ModelState.AddModelError("", ex.Message);
             }
             return View(entity);
+        }
+
+        public FileContentResult Xml(Guid gid)
+        {
+            XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
+            ns.Add("", "");
+
+
+            E d = (E)entityRepository.Get(gid).GetRidOfProxies();
+            XmlSerializer serializer = new XmlSerializer(typeof(E));
+
+            MemoryStream str = new MemoryStream();
+            serializer.Serialize(str, d,ns);
+            byte[] content = new byte[str.Length];
+            str.Position = 0;
+            str.Read(content, 0, (int)str.Length);
+            str.Close();
+            return File(content, "Xml", d.Name + ".xml");
+        }
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            ViewBag.repository = this.repository;
+            base.OnActionExecuting(filterContext);
         }
     }
 }

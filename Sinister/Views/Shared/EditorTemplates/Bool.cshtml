@@ -1,0 +1,14 @@
+﻿@{
+   var o = ViewData.ModelMetadata;
+   bool Model = (bool?)ViewData.Model??false;
+}
+@{
+<div class="btn-group @ViewData["class"]" data-toggle="buttons-radio" data-toggle-css="@(ViewData["data_toggle_css"]??"btn-primary")">
+  <button type="button" value="True" class="btn btn-small">@(Html.Raw(ViewData["data_toggle_true"]??"<i class='icon-ok'></i>"))</button>
+  <button type="button" value="False" class="btn btn-small">@(Html.Raw(ViewData["data_toggle_false"]??"<i class='icon-minus'></i>"))</button>
+</div>
+    @Html.HiddenFor(model => model)
+    <script type="text/javascript">
+        SetRadio('@(ViewData.TemplateInfo.HtmlFieldPrefix)');
+   </script>  
+}

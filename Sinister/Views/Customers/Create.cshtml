@@ -1,0 +1,13 @@
+﻿@model Sinister.Models.CRM.Customer
+
+@{ViewBag.Header = "Клиент";}
+
+@using (Html.BeginForm("Create", "Customers", FormMethod.Post, new { @class = "form-horizontal", role="form" }))
+{
+@Html.ValidationSummary(true)
+<fieldset>
+<legend>Создание карточки клиента</legend>
+@Html.EditorFor(m=>m)
+@Html.Partial("Actions")
+</fieldset>
+}

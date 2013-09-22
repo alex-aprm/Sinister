@@ -1,0 +1,68 @@
+﻿@using Sinister.Models.CRM
+@using Sinister.Models.Core
+@model Identify
+@Html.HiddenFor(m=>m.Gid)
+<tr id="@Model.Gid.ToString()">
+    <td>@Html.DisplayFor(i=>i.Type.Name)</td>
+    <td>@Html.DisplayFor(i=>i.FullNumber)</td>
+    <td>@Html.DisplayFor(i=>i.IssueDate, "ShortDateTime")</td>
+    <td>
+        <a href="#@Model.Gid.ToString()_modal" data-toggle="modal"><i class="glyphicon glyphicon-pencil"></i></a>
+       <a href="@Url.Action(ViewContext.RouteData.Values["action"].ToString(), new { SubGid = Model.Gid,SubAction="RemoveIdentify"  })" data-refresh="documentslist"  role="button"><i class="glyphicon glyphicon-remove"></i></a>
+    </td>
+</tr>
+<div class="modal fade" id="@Model.Gid.ToString()_modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Документ</h4>
+      </div>
+        <div class="modal-body" id="@Model.Gid.ToString()_body">
+            <div class="form-group">
+                <label class="col-lg-2 col-md-2 col-sm-2 control-label">Документ</label>
+                <div class="col-lg-10 col-md-10 col-sm-10">@Html.EditorFor(model => model.TypeGid,"Combobox",new {SID="IdentifyType", @class="form-control"})</div>
+                <div><p class="form-control-static">@Html.ValidationMessageFor(model => model.Type)</p></div>
+            </div>
+            <div class="form-group">
+                <label class="col-lg-2 col-md-2 col-sm-2 control-label">Номер</label>
+                <div class="col-lg-5 col-md-5 col-sm-5">@Html.TextBoxFor(model => model.Series, new { @class = "form-control"})</div>
+                <div class="col-lg-5 col-md-5 col-sm-5">@Html.TextBoxFor(model => model.Number, new { @class = "form-control"})</div>
+                <div><p class="form-control-static">@Html.ValidationMessageFor(model => model.Series)</p></div>
+            </div>
+           <div class="form-group">
+                <label class="col-lg-2 col-md-2 col-sm-2 control-label">Действует</label>
+                 <div class="col-lg-1 col-md-1 col-sm-1"><p class="form-control-static">с</p></div>
+               <div class="col-lg-3 col-md-3 col-sm-3">@Html.TextBoxFor(model => model.IssueDate,"{0:dd.MM.yyyy}", new { @class = "form-control", style="text-align:center;" , data_date=true, data_date_format="dd.mm.yyyy" })</div>
+                <div class="col-lg-1 col-md-1 col-sm-1"><p class="form-control-static">по</p></div>
+               <div class="col-lg-3 col-md-3 col-sm-3">@Html.TextBoxFor(model => model.EndDate,"{0:dd.MM.yyyy}", new { @class = "form-control", style="text-align:center;" , data_date=true, data_date_format="dd.mm.yyyy" })</div>
+                <div><p class="form-control-static">@Html.ValidationMessageFor(model => model.IssueDate)</p></div>
+            </div>
+           <div class="form-group">
+                <label class="col-lg-2 col-md-2 col-sm-2 control-label">Выдан</label>
+                <div class="col-lg-10 col-md-10 col-sm-10">@Html.TextAreaFor(model => model.Issuer, new { @class = "form-control", rows=3})</div>
+                <div><p class="form-control-static">@Html.ValidationMessageFor(model => model.Issuer)</p></div>
+            </div>
+           <div class="form-group">
+                <label class="col-lg-2 col-md-2 col-sm-2 control-label">Код</label>
+                <div class="col-lg-3 col-md-3 col-sm-3">@Html.TextBoxFor(model => model.IssuerCode, new { @class = "form-control"})</div>
+                <div><p class="form-control-static">@Html.ValidationMessageFor(model => model.IssuerCode)</p></div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label class="col-lg-2 col-md-2 col-sm-2 control-label"></label>
+                    <div class="col-lg-5 col-md-5 col-sm-5">@Html.CheckBoxFor(model => model.IsMain)
+                        Основной</div>
+                    <div class="col-lg-5 col-md-5 col-sm-5">@Html.CheckBoxFor(model => model.IsValid)
+                        Действует</div>
+                </div>
+
+            </div>
+        </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary btn-lg" data-refresh="@Model.Gid.ToString()">Сохранить</button>
+        <button type="button" class="btn-link" data-dismiss="modal">Закрыть</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -1,0 +1,36 @@
+﻿@using Sinister.Models.Core
+@{
+    
+    if (ViewData.Model is Enum)
+    {
+
+        bool AllowNotSet = false;
+        AllowNotSet = (bool?)ViewData["AllowNotSet"] == true;
+   var o = ViewData.ModelMetadata;
+   Enum model = (Enum)ViewData.Model;
+
+   Type T = model.GetType();
+
+   @Html.DropDownList("Combo",
+   (from object e in Enum.GetValues(T) where e.ToString()!="NotSet" || AllowNotSet select new SelectListItem { Value = e.ToString(), Text = Sinister.EnumHelper<object>.GetDisplayValue(e).ToString() }
+   ),
+             new { @class = ViewData["class"]})
+
+    @Html.HiddenFor(m => m, new {data_val=ViewData["data_val"], data_val_refresh_id=ViewData["data_val_refresh_id"] })
+    <script type="text/javascript">
+        SetCombo('@(ViewData.TemplateInfo.HtmlFieldPrefix)');
+   </script>  
+}
+else
+{
+    Guid? m = ViewData.Model;
+    Guid Model = Guid.Empty;
+    if (m != null) {Model = (Guid)m;}
+    string SID = (ViewData["SID"] as string) ?? ViewData.TemplateInfo.HtmlFieldPrefix;
+    @Html.DropDownListFor(s => s, 
+    (new SelectList((ViewBag.repository as Sinister.DAL.Repository).Dictionaries.Get(SID).RecordsWithEmpty.OrderBy(r=>r.OrderNumber).ToList(), "Gid", "Name", Model)) as IEnumerable<SelectListItem>,
+    new { @class = ViewData["class"], data_val = ViewData["data_val"]})
+    
+
+}
+}

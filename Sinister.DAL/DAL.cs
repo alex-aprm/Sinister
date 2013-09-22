@@ -5,6 +5,7 @@ using System.Data.Entity.Validation;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using RefactorThis.EFExtensions;
@@ -21,7 +22,7 @@ namespace Sinister.DAL
             this.db = db;
         }
         protected Expression<Func<IUpdateConfiguration<T>, object>> UpdGraph { get; set; } 
-        private Db db;
+        protected Db db;
         public virtual List<T> GetAll()
         {
             return db.Set<T>().AsNoTracking().ToList();
@@ -106,13 +107,44 @@ namespace Sinister.DAL
             if (d != null) d.Records = d.Records.OrderBy(r => r.OrderNumber).ToList();
             return d;
         }
+        public Dictionary Get(string SID)
+        {
+            Dictionary d = db.Dictionaries.AsNoTracking().FirstOrDefault(dd => dd.SID == SID);
+            return d;
+        }
+        public DictionaryRecord GetRecord(Guid gid)
+        {
+            DictionaryRecord r = db.DictionaryRecords.AsNoTracking().FirstOrDefault(dd => dd.Gid==gid);
+            return r;
+        }
     }
 
     public class Customers : EntityRepository<Customer>
     {
         public Customers(Db db)
             : base(db)
-        {}
+        {
+            this.UpdGraph = map => map.OwnedCollection(w => w.Identifies);
+        }
+
+        public override void Save(Customer ent)
+        {
+            foreach (Identify i in ent.Identifies)
+            {
+                i.Customer = null;
+                i.Type = null;
+                //i.CustomerGid = null;
+            }
+            base.Save(ent);
+        }
+    }
+
+    public class Identifies : EntityRepository<Identify>
+    {
+        public Identifies(Db db)
+            : base(db)
+        {
+        }
     }
 
     public class Repository

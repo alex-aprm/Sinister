@@ -1,0 +1,7 @@
+﻿@model decimal?
+@{
+ <div class=" input-append">
+                @Html.TextBoxFor(model => model,"{0:N2}", new { @class = "input-small", style="text-align:right", disabled=true}) 
+  <span class="add-on">руб.</span> 
+</div>
+   }

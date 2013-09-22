@@ -1,0 +1,5 @@
+﻿@model System.DateTime?
+@{
+    DateTime dd = Model ?? DateTime.MinValue;
+    @Html.Raw(dd.ToLongDateString() + (dd.TimeOfDay.TotalSeconds > 0 ? " " + dd.TimeOfDay.ToString(@"hh\:mm\:ss") : ""));
+}

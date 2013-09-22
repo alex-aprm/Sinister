@@ -16,8 +16,10 @@ function getUrlVars(url) {
     }
     return vars;
 }
+
+var backup;
 function BindEvents() {
-    $(".datepicker").remove();
+    //(".datepicker").remove();
     $('[data-date="True"]').each(function (e) {
         $(this).datepicker();
     });
@@ -31,6 +33,13 @@ function BindEvents() {
         cache: false
     });
 
+    $(".modal").on("show.bs.modal", function () {
+        //id = $(this).attr("id");
+        backup = $(this).find('div.modal-body').html();
+    });
+    $(".modal").on("hidden.bs.modal", function () {
+        $(this).find('div.modal-body').html(backup);
+    });
     //Модальные окна
     $('a[data-toggle="prometheusmodal"]').unbind("click");
     $('a[data-toggle="prometheusmodal"]').click(function (e) {
@@ -77,59 +86,60 @@ function BindEvents() {
   });
 
     $('input[type="submit"],button[type="submit"]').unbind("click");
-    $('input[type="submit"],button[type="submit"]').bind("click", function (e) {
-        ModalTarget = $(this).attr("data-target");
-        modalID = $(this).closest('div[data-modal="Wrapper"]').attr("id");
+    $('input[type="submit"],button[type="submit"]').bind("click", function(e) { submitHandler(e, this); });
+    
+    function submitHandler(e,that) {
+        //ModalTarget = $(this).attr("data-target");
+        //modalID = $(this).closest('div[data-modal="Wrapper"]').attr("id");
 
-        FormId = $(this).closest("Form").attr("id");
-       if (FormId == undefined) FormId = ""; else FormId = "#" + FormId;
-        SubAction = $(this).attr("data-action");
-        if (SubAction != undefined) SetField(FormId, 'SubAction', SubAction);
-        refreshId = $(this).attr("data-refresh");
+        var formId = $(that).closest("Form").attr("id");
+        if (formId == undefined) formId = ""; else formId = "#" + formId;
+        var subAction = $(that).attr("data-action");
+        if (subAction != undefined) SetField(formId, 'SubAction', subAction);
+        var refreshId = $(that).attr("data-refresh");
         if (refreshId == undefined) refreshId = "";
         if (refreshId != "") {
-            // alert($('Form' + FormId).attr('Method')),
-            //alert($('Form' + FormId).attr('Action')),
-            // alert($('Form' + FormId).serialize()),
             $.ajax({
                 dataType: "html",
-                type: $('Form' + FormId).attr('Method'),
-                url: $('Form' + FormId).attr('Action'),
-                data: $('Form' + FormId).serialize(),
+                type: $('Form' + formId).attr('Method'),
+                url: $('Form' + formId).attr('Action'),
+                data: $('Form' + formId).serialize(),
                 success: function (data) {
  
-                    if ($(data).find('#needlogin').html() != null) {
-                        return;
-                    }
-                    if ($(data).find('#error').html() != null) {
-                        return;
-                    }
+                    //if ($(data).find('#needlogin').html() != null) {
+                    //    return;
+                    //}
+                    //if ($(data).find('#error').html() != null) {
+                    //    return;
+                    //}
 
                     $('#' + refreshId).html($(data).find('#' + refreshId).html());
+                    backup = $(data).find('#' + refreshId + '_body').html();
+                    $(that).closest(".modal").modal('hide');
 
-                    if ($(data).find('#' + refreshId).html() == undefined)
-                        if (ModalTarget != undefined) {
-                           supresswizard=$(ModalTarget).attr("data-supresswizard");
-                            //Если выходим из модального окна с подтверждением и попали назад в список -- закрыть окно
-                            newstep = $(data).find('#wizardsteps').html();
-                            oldstep = $('#wizardsteps').html();
-                            if (newstep != oldstep) {
-                                //Если мы в мастере, и поменялся шаг -- надо перейти на новый шаг.
-                                //Для этого тупо переходим по ссылке
-                               if (supresswizard!="true") window.location = $(data).find('.container').attr("data-url");
-                            }
-                            $(ModalTarget).modal('hide');
-                            return;
-                        }
+                    //if ($(data).find('#' + refreshId).html() == undefined)
+                    //if (ModalTarget != undefined) {
+                    //   supresswizard=$(ModalTarget).attr("data-supresswizard");
+                    //    //Если выходим из модального окна с подтверждением и попали назад в список -- закрыть окно
+                    //    newstep = $(data).find('#wizardsteps').html();
+                    //    oldstep = $('#wizardsteps').html();
+                    //    if (newstep != oldstep) {
+                    //        //Если мы в мастере, и поменялся шаг -- надо перейти на новый шаг.
+                    //        //Для этого тупо переходим по ссылке
+                    //       if (supresswizard!="true") window.location = $(data).find('.container').attr("data-url");
+                    //    }
+                    //    $(ModalTarget).modal('hide');
+                    //    return;
+                    //}
                     BindEvents();
-                    if (SubAction == undefined ||SubAction=="")
-                    DecorateModal(modalID, ModalTarget);
+                    // if (SubAction == undefined ||SubAction=="")
+                    // DecorateModal(modalID, ModalTarget);
                 }
 
             });
-               e.preventDefault();
+            e.preventDefault();
         }
-    });
+    }
     $('a[role="button"]').unbind("click");
     $('a[role="button"]').bind("click", function (e) {
         ModalTarget = $(this).attr("data-target");
@@ -268,8 +278,6 @@ function DecorateModal(id, modalid) {
 
     }
 }
-
-
 
 function SetRadio(id) {
     id = id.replace(/\[/g, "_")

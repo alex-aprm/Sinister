@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="DAL.cs" />
     <Compile Include="DB.cs" />
+    <Compile Include="God.cs" />
     <Compile Include="Migrations\201309181821013_CoreCustomerMigration.cs" />
     <Compile Include="Migrations\201309181821013_CoreCustomerMigration.Designer.cs">
       <DependentUpon>201309181821013_CoreCustomerMigration.cs</DependentUpon>
@@ -63,6 +64,30 @@
     <Compile Include="Migrations\201309191922069_CoreCustomerMigration2.cs" />
     <Compile Include="Migrations\201309191922069_CoreCustomerMigration2.Designer.cs">
       <DependentUpon>201309191922069_CoreCustomerMigration2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201309201815232_CustomersMigration.cs" />
+    <Compile Include="Migrations\201309201815232_CustomersMigration.Designer.cs">
+      <DependentUpon>201309201815232_CustomersMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201309220711365_CustomersMigration1.cs" />
+    <Compile Include="Migrations\201309220711365_CustomersMigration1.Designer.cs">
+      <DependentUpon>201309220711365_CustomersMigration1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201309221018269_CustomersMigration2.cs" />
+    <Compile Include="Migrations\201309221018269_CustomersMigration2.Designer.cs">
+      <DependentUpon>201309221018269_CustomersMigration2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201309221259540_GidsMigration.cs" />
+    <Compile Include="Migrations\201309221259540_GidsMigration.Designer.cs">
+      <DependentUpon>201309221259540_GidsMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201309221310388_GidsMigration1.cs" />
+    <Compile Include="Migrations\201309221310388_GidsMigration1.Designer.cs">
+      <DependentUpon>201309221310388_GidsMigration1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201309221328006_GidsMigration2.cs" />
+    <Compile Include="Migrations\201309221328006_GidsMigration2.Designer.cs">
+      <DependentUpon>201309221328006_GidsMigration2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -91,6 +116,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201309191922069_CoreCustomerMigration2.resx">
       <DependentUpon>201309191922069_CoreCustomerMigration2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201309201815232_CustomersMigration.resx">
+      <DependentUpon>201309201815232_CustomersMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201309220711365_CustomersMigration1.resx">
+      <DependentUpon>201309220711365_CustomersMigration1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201309221018269_CustomersMigration2.resx">
+      <DependentUpon>201309221018269_CustomersMigration2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201309221259540_GidsMigration.resx">
+      <DependentUpon>201309221259540_GidsMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201309221310388_GidsMigration1.resx">
+      <DependentUpon>201309221310388_GidsMigration1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201309221328006_GidsMigration2.resx">
+      <DependentUpon>201309221328006_GidsMigration2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

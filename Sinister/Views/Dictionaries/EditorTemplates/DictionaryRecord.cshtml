@@ -1,14 +1,15 @@
 ﻿@model Sinister.Models.Core.DictionaryRecord
 @Html.HiddenFor(s =>s.Gid)
+@Html.HiddenFor(s =>s.DictionaryGid)
 <tr> 
 <td><p class="form-control-static text-center">@Html.DisplayFor(s =>s.OrderNumber)</p></td>
 <td>@Html.TextBoxFor(s => s.Name)</td>
 <td>@Html.TextBoxFor(s => s.SID)</td>
     <td>
         <p class="form-control-static">
-                  <a href="@Url.Action(ViewContext.RouteData.Values["action"].ToString(), new { RecordGid = Model.Gid,SubAction="MoveRecordUp"  })" data-refresh="recordslist" role="button"><i class="glyphicon glyphicon-arrow-up"></i></a>
-                  <a href="@Url.Action(ViewContext.RouteData.Values["action"].ToString(), new { RecordGid = Model.Gid,SubAction="MoveRecordDown"  })" data-refresh="recordslist"  role="button"><i class="glyphicon glyphicon-arrow-down"></i></a>
-                  <a href="@Url.Action(ViewContext.RouteData.Values["action"].ToString(), new { RecordGid = Model.Gid,SubAction="RemoveRecord"  })" data-refresh="recordslist"  role="button"><i class="glyphicon glyphicon-remove"></i></a>
+                  <a href="@Url.Action(ViewContext.RouteData.Values["action"].ToString(), new { SubGid = Model.Gid,SubAction="MoveRecordUp"  })" data-refresh="recordslist" role="button"><i class="glyphicon glyphicon-arrow-up"></i></a>
+                  <a href="@Url.Action(ViewContext.RouteData.Values["action"].ToString(), new { SubGid = Model.Gid,SubAction="MoveRecordDown"  })" data-refresh="recordslist"  role="button"><i class="glyphicon glyphicon-arrow-down"></i></a>
+                  <a href="@Url.Action(ViewContext.RouteData.Values["action"].ToString(), new { SubGid = Model.Gid,SubAction="RemoveRecord"  })" data-refresh="recordslist"  role="button"><i class="glyphicon glyphicon-remove"></i></a>
               </p>
     </td>
 </tr>

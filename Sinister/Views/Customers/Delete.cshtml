@@ -1,0 +1,14 @@
+﻿@model Sinister.Models.CRM.Customer
+
+@{ViewBag.Header = "Клиент";}
+
+@using (Html.BeginForm("Delete", "Customers", FormMethod.Post, new { @class = "form-horizontal", role="form" }))
+{
+@Html.ValidationSummary(true)
+<fieldset>
+<legend>Удаление карточки клиента</legend>
+  <p> Удалить карточку @Model.Name?</p>
+@Html.Partial("DeleteActions")
+</fieldset>
+}
+

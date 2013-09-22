@@ -1,0 +1,8 @@
+﻿@model decimal?
+@{
+    decimal dd = Model ?? 0;
+    if (Model!=null)
+    {
+    @Html.Raw(dd.ToString("N"));
+}
+}

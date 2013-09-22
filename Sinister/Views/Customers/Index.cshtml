@@ -1,5 +1,38 @@
-﻿@model IList<Sinister.Models.CRM.Customer>
-@foreach (Sinister.Models.CRM.Customer c in Model)
-{
-    @Html.DisplayFor(m => c.Gid)<br />
+﻿@model IEnumerable<Sinister.Models.CRM.Customer>
+
+@{ViewBag.Header = "Клиенты";}
+
+@section Toolbar{    
+    <a class="btn btn-primary navbar-btn" href="@Url.Action("Create")"><i class="glyphicon glyphicon-plus"></i> Добавить клиента</a>
 }
+<div class="panel panel-default">
+    <table class="table">
+      <thead>
+        <tr>
+          <th style="width:50%;">Ф.И.О.</th>
+          <th>Документ</th>
+          <th>Дата рождения</th>
+          <th style="width: 36px;"></th>
+        </tr>
+      </thead>
+      <tbody>
+@foreach (Sinister.Models.CRM.Customer item in Model)
+{
+    <tr>
+        <td>
+            <a href="@Url.Action("Edit", new { gid = item.Gid })">@Html.DisplayFor(modelItem => item.Name)</a>
+        </td>
+       <td>
+            @Html.DisplayFor(modelItem => item.MainIdentify)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BirthDate,"ShortDateTime")
+        </td>
+          <td>
+             <a href="@Url.Action("Delete", new { gid = item.Gid })"><i class="glyphicon glyphicon-remove"></i></a>
+          </td>
+    </tr>
+}
+</tbody>
+    </table>
+</div>

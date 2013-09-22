@@ -11,9 +11,26 @@ namespace Sinister.Controllers
     public class CustomersController : CRUDController<Customer,Customers>
     {
 
-        protected override Customer ProcessSubAction(Customer entity, string SubAction, Guid? SubGid)
+        protected override Customer ProcessSubAction(Customer customer, string SubAction, Guid? SubGid)
         {
-            return base.ProcessSubAction(entity, SubAction, SubGid);
+           ModelState.Clear();
+            switch (SubAction)
+            {
+                case "AddIdentify":
+                    customer.Identifies.Add(new Identify());
+                    break;
+                case "RemoveIdentify":
+                    Identify RecordToRemove = customer.Identifies.First(s => s.Gid == (SubGid ?? Guid.Empty));
+                    customer.Identifies.Remove(RecordToRemove);
+                    break;
+             }
+            return customer;
         }
+    }
+
+    public class IdentifiesController : CRUDController<Identify, Identifies>
+    {
+        
+
     }
 }

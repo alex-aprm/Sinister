@@ -1,0 +1,48 @@
+@using Sinister.Models.CRM
+@using Sinister.Models.Core
+@model Customer
+@Html.HiddenFor(m=>m.Gid)
+<div class="form-group">
+    <label class="col-lg-2 col-md-2 col-sm-2 control-label">Код клента</label>
+    <div class="col-lg-2 col-md-2 col-sm-2">@Html.TextBoxFor(model => model.Code, new { @class = "form-control" })</div>
+    <div class="checkbox-inline col-lg-2 col-md-2 col-sm-2">@Html.CheckBoxFor(model => model.IsFullCustomer) Клиент Банка</div>
+    <div><p class="form-control-static">@Html.ValidationMessageFor(model => model.Code) @Html.ValidationMessageFor(model => model.Code)</p></div>
+</div>
+<div class="form-group">
+    <label class="col-lg-2 col-md-2 col-sm-2 control-label">Ф.И.О.</label>
+    <div class="col-lg-3 col-md-3 col-sm-3">@Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })</div>
+    <div class="col-lg-3 col-md-3 col-sm-3">@Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })</div>
+    <div class="col-lg-3 col-md-3 col-sm-3">@Html.TextBoxFor(model => model.MiddleName, new { @class = "form-control" })</div>
+    <div><p class="form-control-static">@Html.ValidationMessageFor(model => model.LastName)</p><p class="form-control-static">@Html.ValidationMessageFor(model => model.FirstName)</p><p class="form-control-static">@Html.ValidationMessageFor(model => model.MiddleName)</p></div>
+</div>
+<div class="form-group">
+    <label class="col-lg-2 col-md-2 col-sm-2 control-label">Дата рождения</label>
+    <div class="col-lg-2 col-md-2 col-sm-2">@Html.TextBoxFor(model => model.BirthDate,"{0:dd.MM.yyyy}", new { @class = "form-control", style="text-align:center;" , data_date=true, data_date_format="dd.mm.yyyy" })</div>
+    <div><p class="form-control-static">@Html.ValidationMessageFor(model => model.BirthDate)</p></div>
+</div>
+<div class="form-group">
+    <label class="col-lg-2 col-md-2 col-sm-2 control-label">ИНН</label>
+    <div class="col-lg-2 col-md-2 col-sm-2">@Html.TextBoxFor(model => model.INN, new { @class = "form-control"})</div>
+    <div><p class="form-control-static">@Html.ValidationMessageFor(model => model.INN)</p></div>
+</div>
+<div class="form-group">
+    <label class="col-lg-2 col-md-2 col-sm-2 control-label">Документы 
+               <a href="@Url.Action(ViewContext.RouteData.Values["action"].ToString(), new { SubAction="AddIdentify"  })" data-refresh="documentslist" role="button">
+            <i class="glyphicon glyphicon-plus"></i>
+        </a>
+
+    </label>
+    <div class="col-lg-10 col-md-10 col-sm-10" id="documentslist">
+        <p class="form-control-static">
+            <table class="table table-condensed">
+                @*            <tr>
+                <td>Документ</td>
+                <td>Номер</td>
+                <td>Выдан</td>
+            </tr>*@
+                @Html.EditorFor(m=>m.Identifies)
+            </table>
+        </p>
+    </div>
+</div>
+

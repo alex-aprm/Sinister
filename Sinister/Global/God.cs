@@ -13,7 +13,7 @@ using System.IO;
 using System.ComponentModel;
 using System.Globalization;
 
-namespace Sinister.Global
+namespace Sinister
 {
     public class DecimalModelBinder : IModelBinder
     {

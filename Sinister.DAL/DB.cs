@@ -18,16 +18,19 @@ namespace Sinister.DAL
         public Db(string connectionString)
             : base(connectionString)
         {
+            God.MigrationConnectionString = connectionString;
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<Db, Configuration>());
         }
         public Db()
-            : base("Data Source=test-vsrv-dsoft;Initial Catalog=Sinister;Integrated Security=true") //Только для миграций из Студии
+            : base(God.MigrationConnectionString ?? "Data Source=pc-alex;Initial Catalog=Sinister;Integrated Security=true") //Только для миграций из Студии
         {
             //throw new Exception(this.Database.Connection.ConnectionString.ToString());
         }
 
         public DbSet<Dictionary> Dictionaries { get; set; }
+        public DbSet<DictionaryRecord> DictionaryRecords { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<Identify> Identifies { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

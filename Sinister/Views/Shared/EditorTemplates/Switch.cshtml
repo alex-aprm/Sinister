@@ -1,0 +1,21 @@
+﻿@{
+   var o = ViewData.ModelMetadata;
+   Enum model = (Enum)ViewData.Model;
+
+   Type T = model.GetType();
+   @:<div class="btn-group @ViewData["class"]" data-toggle="buttons-radio" data-toggle-css="@(ViewData["data_toggle_css"]??"btn-primary")">
+    foreach(var e in Enum.GetValues(T))         
+    {
+        if (e.ToString()!="NotSet")
+        { 
+              <button class="btn @ViewData["btnclass"]" id="@(ViewData.TemplateInfo.HtmlFieldPrefix).@e.ToString()" @Html.Raw((bool)(ViewData["disabled"]??false)?"disabled":"") type="button" value="@e.ToString()" class="btn @ViewData["btnclass"]">@(Prometheus.EnumHelper<object>.GetDisplayValue(e).ToString())</button>
+
+}    
+}
+     @:</div>
+     @Html.HiddenFor(m => m, new {data_val=ViewData["data_val"], data_val_refresh_id=ViewData["data_val_refresh_id"] })
+    <script type="text/javascript">
+        SetRadio('@(ViewData.TemplateInfo.HtmlFieldPrefix)');
+   </script>  
+
+}

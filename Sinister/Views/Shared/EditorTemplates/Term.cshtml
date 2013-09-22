@@ -1,0 +1,7 @@
+﻿@model int?
+@{
+ <div class=" input-append">
+                @Html.TextBoxFor(model => model, new { @class = "input-small", style="text-align:right", data_val_refresh_id=ViewData["data_val_refresh_id"]}) 
+  <span class="add-on">@(ViewData["addon"]??"мес.")</span> 
+</div>
+   }

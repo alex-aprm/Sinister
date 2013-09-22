@@ -12,7 +12,7 @@
           <th>Словарь</th>
           <th>SID</th>
           <th>Записей</th>
-          <th style="width: 36px;"></th>
+          <th style="width: 48px;"></th>
         </tr>
       </thead>
       <tbody>
@@ -29,6 +29,7 @@
             @Html.DisplayFor(modelItem => item.RecordsCount)
         </td>
           <td>
+             <a href="@Url.Action("xml", new { gid = item.Gid })"><i class="glyphicon glyphicon-export"></i></a>
              <a href="@Url.Action("Delete", new { gid = item.Gid })"><i class="glyphicon glyphicon-remove"></i></a>
           </td>
     </tr>
