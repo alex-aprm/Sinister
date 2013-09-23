@@ -33,13 +33,15 @@ namespace Sinister.Models.CRM
         public bool BirthDateSpecified { get { return BirthDate.HasValue; } }
         public bool IsFullCustomer { get; set; }
         public virtual List<Identify> Identifies { get; set; }
-        public override string Name
+        [XmlIgnore]
+        public string Name
         {
             get
             {
                 return this.LastName + " " + this.FirstName + " " + this.MiddleName;
             }
         }
+        [XmlIgnore]
         public Identify MainIdentify
         {
             get
@@ -55,8 +57,10 @@ namespace Sinister.Models.CRM
         {
             this.Gid = Guid.NewGuid();
         }
+        [XmlIgnore]
         public virtual Customer Customer { get; set; }
         public virtual DictionaryRecord Type { get; set; }
+        [XmlIgnore]
         public Guid? TypeGid { get; set; }
 
         [MaxLength(50)]
@@ -64,8 +68,13 @@ namespace Sinister.Models.CRM
 
         [MaxLength(50)]
         public string Number { get; set; }
-
+        [XmlIgnore]
+        [NotMapped]
+        public bool IssueDateSpecified { get { return IssueDate.HasValue; } }
         public DateTime? IssueDate { get; set; }
+        [XmlIgnore]
+        [NotMapped]
+        public bool EndDateSpecified { get { return EndDate.HasValue; } }
         public DateTime? EndDate { get; set; }
 
         [MaxLength(500)]
@@ -84,6 +93,7 @@ namespace Sinister.Models.CRM
             return s;
         }
 
+        [XmlIgnore]
         public string FullNumber
         {
             get
@@ -92,7 +102,8 @@ namespace Sinister.Models.CRM
             }
         }
 
-        public override string Name
+        [XmlIgnore]
+        public string Name
         {
             get
             {
@@ -101,6 +112,56 @@ namespace Sinister.Models.CRM
         }
 
     }
+
+    public class Address :Entity
+    {
+        public Address()
+        {
+            this.Gid = Guid.NewGuid();
+        }
+        [XmlIgnore]
+        public virtual Customer Customer { get; set; }
+        public virtual DictionaryRecord Type { get; set; }
+        [XmlIgnore]
+        public Guid? TypeGid { get; set; }
+
+        public bool isWellFormed { get; set; }
+
+        [MaxLength(1000)]
+        public string Native { get; set; }
+
+        [MaxLength(1000)]
+        public string Formed { get; set; }
+
+        [MaxLength(50)]
+        public string RegionID { get; set; }
+        [MaxLength(50)]
+        public string CityID { get; set; }
+        [MaxLength(50)]
+        public string AreaID { get; set; }
+        [MaxLength(50)]
+        public string TownID { get; set; }
+        [MaxLength(50)]
+        public string StreetID { get; set; }
+
+        [MaxLength(200)]
+        public string Region { get; set; }
+        [MaxLength(200)]
+        public string City { get; set; }
+        [MaxLength(200)]
+        public string Area { get; set; }
+        [MaxLength(200)]
+        public string Town { get; set; }
+        [MaxLength(200)]
+        public string Street { get; set; }
+        [MaxLength(50)]
+        public string House { get; set; }
+        [MaxLength(50)]
+        public string Corp { get; set; }
+        [MaxLength(50)]
+        public string Flat { get; set; }
+    }
+
 
     public enum CustomerType
     {

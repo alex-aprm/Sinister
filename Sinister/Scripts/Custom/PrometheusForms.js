@@ -26,8 +26,16 @@ function BindEvents() {
     $('[data-date="True"]').each(function (e) {
         $(this).datepicker();
     });
+    
+
+    $('.validation-summary-errors').each(function () {
+        if ($(this).find('li').first().attr('style') == 'display:none')
+            $(this).remove();
+
+    });
     $('.validation-summary-errors').addClass('alert alert-danger');
     $('.validation-summary-errors').removeClass('validation-summary-errors');
+
 
     $('input[type="text"]').addClass("form-control");
 
@@ -36,10 +44,10 @@ function BindEvents() {
         cache: false
     });
 
-    $(".modal").on("show.bs.modal", function () {
+    $(".modal").on("shown.bs.modal", function () {
         //id = $(this).attr("id");
         backup = $(this).find('div.modal-body').html();
-        cancel = false;
+        cancel = true;
     });
     $(".modal").on("hidden.bs.modal", function () {
         $(this).find('div.modal-body').html(backup);
@@ -47,6 +55,7 @@ function BindEvents() {
             $("#" + refreshId).find("a[data-click='true'][data-toggle='remove']").click();
             $("#" + refreshId).find("a[data-click='true'][data-toggle='remove']").attr("data-click", "");
         }
+        BindEvents();
     });
     //Модальные окна
     $('a[data-toggle="prometheusmodal"]').unbind("click");
@@ -136,13 +145,21 @@ function BindEvents() {
                     //if ($(data).find('#error').html() != null) {
                     //    return;
                     //}
-
-                    $('#' + refreshId).html($(data).find('#' + refreshId).html());
-                    cancel = true;
-                     backup = $(data).find('#' + refreshId + '_body').html();
-                    $(that).closest(".modal").modal('hide');
+                    if ($(data).find('#' + refreshId + '_body')==undefined)
+                      $('#' + refreshId).html($(data).find('#' + refreshId).html());
                     
-                   
+                    cancel = false;
+                    //console.log($(data).find('#' + refreshId + '_body').html());
+
+                    if ($(data).find('#' + refreshId + '_body').find(".field-validation-error").length == 0
+                        && $(data).find('#' + refreshId + '_body').find(".input-validation-error").length == 0) {
+                        backup = $(data).find('#' + refreshId + '_body').html();
+                        $('#' + refreshId).html($(data).find('#' + refreshId).html());
+                        $(that).closest(".modal").modal('hide');
+                    } else {
+                        $('#' + refreshId + '_body').html($(data).find('#' + refreshId + '_body').html());
+                    }
+                    
                     $('#' + refreshId).find("a[data-click='true'][data-toggle='modal']").click();
                     $('#' + refreshId).find("a[data-click='true'][data-toggle='modal']").attr("data-click", "");
                     //if ($(data).find('#' + refreshId).html() == undefined)

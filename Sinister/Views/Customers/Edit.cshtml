@@ -4,7 +4,7 @@
 
 @using (Html.BeginForm("Edit", "Customers", FormMethod.Post, new { @class = "form-horizontal", role="form" }))
 {
-@Html.ValidationSummary(false)
+@Html.ValidationSummary(true)
 <fieldset>
 <legend>Изменение карточки клиента</legend>
 @Html.EditorFor(m=>m)

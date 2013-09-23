@@ -50,14 +50,14 @@ namespace Sinister.Controllers
         [HttpPost]
         public virtual ActionResult Create(E entity, string SubAction, Guid? SubGid)
         {
-            entity = ProcessSubAction(entity, SubAction, SubGid);
-            if (SubAction == "")
+            entity = (E)ReadDictionaryProps(entity);
+            if ((SubAction??"") == "")
             {
                 if (ModelState.IsValid)
                 {
                     try
                     {
-                        this.entityRepository.Save(entity);
+                        this.entityRepository.Save((E)entity.GetRidOfProxies());
                         return RedirectToAction("Index");
                     }
                     catch (ValidationException ex)
@@ -73,6 +73,7 @@ namespace Sinister.Controllers
                     }
                 }
             }
+            else entity = ProcessSubAction(entity, SubAction, SubGid);
             return View(entity);
         }
 
@@ -85,15 +86,14 @@ namespace Sinister.Controllers
         [HttpPost]
         public virtual ActionResult Edit(E entity, string SubAction, Guid? SubGid)
         {
-            entity = ProcessSubAction(entity, SubAction, SubGid);
-            entity = (E)ReadDictionaryProps(entity);
-            if (SubAction == "")
+            entity = (E) ReadDictionaryProps(entity);
+            if ((SubAction??"") == "")
             {
                 if (ModelState.IsValid)
                 {
                     try
                     {
-                        this.entityRepository.Save(entity);
+                        this.entityRepository.Save((E) entity.GetRidOfProxies());
                         return RedirectToAction("Index");
                     }
                     catch (ValidationException ex)
@@ -106,11 +106,11 @@ namespace Sinister.Controllers
                     catch (Exception ex)
                     {
                         string InnerMessage = "";
-                        if (ex.InnerException != null) InnerMessage = " ("+ex.InnerException.Message+")";
-                        ModelState.AddModelError("", ex.Message+InnerMessage);
+                        if (ex.InnerException != null) InnerMessage = " (" + ex.InnerException.Message + ")";
+                        ModelState.AddModelError("", ex.Message + InnerMessage);
                     }
                 }
-            }
+            } else entity = ProcessSubAction(entity, SubAction, SubGid);
             return View(entity);
         }
 

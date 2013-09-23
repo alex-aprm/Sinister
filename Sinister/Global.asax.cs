@@ -16,6 +16,17 @@ namespace Sinister
         {
             AreaRegistration.RegisterAllAreas();
 
+            ModelBinders.Binders.Add(typeof(decimal?), new DecimalModelBinder());
+
+            DefaultModelBinder.ResourceClassKey = "Errors";
+
+            var existingProvider = ModelValidatorProviders.Providers.Single(x => x is ClientDataTypeModelValidatorProvider);
+            ModelValidatorProviders.Providers.Remove(existingProvider);
+            ModelValidatorProviders.Providers.Add(new ClientNumberValidatorProvider());
+
+            ModelBinders.Binders.Add(typeof(DateTime), new DateTimeBinder());
+            ModelBinders.Binders.Add(typeof(DateTime?), new DateTimeBinder());
+
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

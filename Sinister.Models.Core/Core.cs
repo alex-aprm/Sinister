@@ -23,6 +23,7 @@ namespace Sinister.Models.Core
         }
 
         [Key]
+        [XmlAttribute("Gid")]
         public Guid Gid { get; set; }
         [MaxLength(200)]
         public virtual string Name { get; set; }
@@ -37,7 +38,7 @@ namespace Sinister.Models.Core
             if (t.Name == "Entity")
                 t = this.GetType();
             Mapper.CreateMap(t,t);
-            foreach (PropertyInfo pp in t.GetProperties().Where(p=>p.CanWrite && !(p.GetCustomAttributes(false).Any(a=>a is XmlIgnoreAttribute))))
+            foreach (PropertyInfo pp in t.GetProperties().Where(p=>p.CanWrite && !(p.GetCustomAttributes(false).Any(a=>a is XmlIgnoreAttribute || a is NotMappedAttribute))))
             {
                 if (pp.PropertyType.BaseType == typeof(Entity))
                 {
@@ -51,10 +52,10 @@ namespace Sinister.Models.Core
                     {
                         ConstructorInfo ci = pp.PropertyType.GetConstructor(new Type[] { });
                         IList dstlist = (IList)ci.Invoke(new object[] { });
-                        foreach (Entity ce in (IList)pp.GetValue(this))
+                        IList srclist = (IList)pp.GetValue(this);
+                        foreach (Entity ce in srclist)
                         {
                             Entity cec = ce.GetRidOfProxies();
-
                             dstlist.Add(cec);
                         }
                         pp.SetValue(this, dstlist);
@@ -65,40 +66,5 @@ namespace Sinister.Models.Core
             return e;
         }
     }
-    public class Dictionary :Entity 
-    {
-        public Dictionary()
-        {
-            this.Records = new List<DictionaryRecord>();
-            this.Gid = Guid.NewGuid();
-        }
-        [MaxLength(200)]
-        public string SID { get; set; }
-        public virtual List<DictionaryRecord> Records { get; set; }
-        public int RecordsCount {get { return this.Records.Count(); }}
-        [NotMapped]
-        public List<DictionaryRecord> RecordsWithEmpty
-        {
-            get
-            {
-                List<DictionaryRecord> r = this.Records;
-                r.Add(new DictionaryRecord {OrderNumber = -1});
-                return r;
-            }
-        }
-    }
-    public class DictionaryRecord :Entity
-    {
-        public DictionaryRecord()
-        {
-            this.Gid = Guid.NewGuid();
-        }
-        [XmlIgnore]
-        public virtual Dictionary Dictionary { get; set; }
-        [XmlIgnore]
-        public Guid DictionaryGid { get; set; }
-        public int OrderNumber { get; set; }
-        [MaxLength(200)]
-        public string SID { get; set; }
-    }
+ 
 }

@@ -8,9 +8,10 @@
     <td>@Html.DisplayFor(i=>i.IssueDate, "ShortDateTime")</td>
     <td>
         <a href="#@Model.Gid.ToString()_modal" data-toggle="modal" @if ((ViewBag.NewGid??Guid.Empty)==Model.Gid) {@Html.Raw("data-click=\"true\"");}><i class="glyphicon glyphicon-pencil"></i></a>
-       <a href="@Url.Action(ViewContext.RouteData.Values["action"].ToString(), new { SubGid = Model.Gid,SubAction="RemoveIdentify"  })" data-refresh="documentslist" data-toggle="remove" role="button"  @if ((ViewBag.NewGid??Guid.Empty)==Model.Gid) {@Html.Raw("data-click=\"true\"");}><i class="glyphicon glyphicon-remove"></i></a>
+        <a href="@Url.Action(ViewContext.RouteData.Values["action"].ToString(), new { SubGid = Model.Gid,SubAction="RemoveIdentify"  })" data-refresh="documentslist" data-toggle="remove" role="button"  @if ((ViewBag.NewGid??Guid.Empty)==Model.Gid) {@Html.Raw("data-click=\"true\"");}><i class="glyphicon glyphicon-remove"></i></a>
     </td>
 </tr>
+
 <div class="modal fade" id="@Model.Gid.ToString()_modal">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -60,7 +61,7 @@
             </div>
         </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-primary btn-lg" data-refresh="@Model.Gid.ToString()">Сохранить</button>
+        <button type="submit" class="btn btn-primary btn-lg" data-action="Validate" data-refresh="@Model.Gid.ToString()">Сохранить</button>
         <button type="button" class="btn-link" data-dismiss="modal">Закрыть</button>
       </div>
     </div><!-- /.modal-content -->

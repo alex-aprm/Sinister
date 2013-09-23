@@ -8,12 +8,11 @@ using Sinister.DAL;
 
 namespace Sinister.Controllers
 {
-    public class CustomersController : CRUDController<Customer,Customers>
+    public class CustomersController : CRUDController<Customer, Customers>
     {
 
         protected override Customer ProcessSubAction(Customer customer, string SubAction, Guid? SubGid)
         {
-           ModelState.Clear();
             switch (SubAction)
             {
                 case "AddIdentify":
@@ -22,12 +21,14 @@ namespace Sinister.Controllers
                     i.IsValid = true;
                     customer.Identifies.Add(i);
                     ViewBag.NewGid = i.Gid;
+                    ModelState.Clear();
                     break;
                 case "RemoveIdentify":
                     Identify RecordToRemove = customer.Identifies.First(s => s.Gid == (SubGid ?? Guid.Empty));
                     customer.Identifies.Remove(RecordToRemove);
+                    ModelState.Clear();
                     break;
-             }
+            }
             return customer;
         }
     }

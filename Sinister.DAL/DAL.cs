@@ -25,11 +25,11 @@ namespace Sinister.DAL
         protected Db db;
         public virtual List<T> GetAll()
         {
-            return db.Set<T>().AsNoTracking().ToList();
+            return db.Set<T>().ToList();
         }
         public virtual T Get(Guid gid)
         {
-            return db.Set<T>().AsNoTracking().FirstOrDefault(m=>m.Gid==gid);
+            return db.Set<T>().FirstOrDefault(m=>m.Gid==gid);
         }
         public virtual void Save(T ent)
         {
@@ -109,12 +109,12 @@ namespace Sinister.DAL
         }
         public Dictionary Get(string SID)
         {
-            Dictionary d = db.Dictionaries.AsNoTracking().FirstOrDefault(dd => dd.SID == SID);
+            Dictionary d = db.Dictionaries.FirstOrDefault(dd => dd.SID == SID);
             return d;
         }
         public DictionaryRecord GetRecord(Guid gid)
         {
-            DictionaryRecord r = db.DictionaryRecords.AsNoTracking().FirstOrDefault(dd => dd.Gid==gid);
+            DictionaryRecord r = db.DictionaryRecords.FirstOrDefault(dd => dd.Gid==gid);
             return r;
         }
     }
@@ -129,13 +129,14 @@ namespace Sinister.DAL
 
         public override void Save(Customer ent)
         {
-            foreach (Identify i in ent.Identifies)
+            Customer e = ent;
+            foreach (Identify i in e.Identifies)
             {
                 i.Customer = null;
                 i.Type = null;
                 //i.CustomerGid = null;
             }
-            base.Save(ent);
+            base.Save(e);
         }
     }
 
