@@ -94,7 +94,7 @@ function BindEvents() {
 
                 $(modalid).unbind('hide');;
                 $(modalid).on('hidden', function (e) {
-                   $(this).html("---")
+                    $(this).html("---");
                 });
             }
 
@@ -148,12 +148,12 @@ function BindEvents() {
                     if ($(data).find('#' + refreshId + '_body')==undefined)
                       $('#' + refreshId).html($(data).find('#' + refreshId).html());
                     
-                    cancel = false;
                     //console.log($(data).find('#' + refreshId + '_body').html());
 
                     if ($(data).find('#' + refreshId + '_body').find(".field-validation-error").length == 0
                         && $(data).find('#' + refreshId + '_body').find(".input-validation-error").length == 0) {
-                        backup = $(data).find('#' + refreshId + '_body').html();
+                       cancel = false;
+                       backup = $(data).find('#' + refreshId + '_body').html();
                         $('#' + refreshId).html($(data).find('#' + refreshId).html());
                         $(that).closest(".modal").modal('hide');
                     } else {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -61,6 +62,7 @@ namespace Sinister.Models.CRM
         public virtual Customer Customer { get; set; }
         public virtual DictionaryRecord Type { get; set; }
         [XmlIgnore]
+        [GuidNotEmpty(ErrorMessage = "Необходимо указать тип документа")]
         public Guid? TypeGid { get; set; }
 
         [MaxLength(50)]

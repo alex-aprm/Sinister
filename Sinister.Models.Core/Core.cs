@@ -66,5 +66,17 @@ namespace Sinister.Models.Core
             return e;
         }
     }
- 
+
+    public class GuidNotEmptyAttribute : ValidationAttribute
+    {
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            Guid g = ((Guid?)value)?? Guid.Empty;
+            string message = FormatErrorMessage(validationContext.DisplayName);
+            if (g == Guid.Empty)
+            { return new ValidationResult(String.Format(message!=""?message:"Необходимо выбрать значение")); }
+            return ValidationResult.Success;
+        }
+    }
+
 }

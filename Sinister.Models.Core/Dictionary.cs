@@ -30,7 +30,7 @@ namespace Sinister.Models.Core
             {
                 List<DictionaryRecord> r = new List<DictionaryRecord>();
                 r.AddRange(this.Records);
-                r.Add(new DictionaryRecord { OrderNumber = -1 });
+                r.Add(new DictionaryRecord { Gid=Guid.Empty, OrderNumber = -1 });
                 return r;
             }
         }
