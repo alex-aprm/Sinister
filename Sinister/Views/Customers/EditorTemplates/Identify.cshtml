@@ -2,6 +2,7 @@
 @using Sinister.Models.Core
 @model Identify
 @Html.HiddenFor(m=>m.Gid)
+@Html.HiddenFor(m=>m.Customer.Gid)
 <tr id="@Model.Gid.ToString()">
     <td>@Html.DisplayFor(i=>i.Type.Name)</td>
     <td>@Html.DisplayFor(i=>i.FullNumber)</td>

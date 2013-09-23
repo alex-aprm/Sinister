@@ -11,7 +11,7 @@ namespace Sinister.Controllers
     public class CustomersController : CRUDController<Customer, Customers>
     {
 
-        protected override Customer ProcessSubAction(Customer customer, string SubAction, Guid? SubGid)
+        protected override Customer ProcessSubAction(Customer customer, string SubAction, Guid? SubGid, int? SubId)
         {
             switch (SubAction)
             {
@@ -19,6 +19,7 @@ namespace Sinister.Controllers
                     Identify i = new Identify();
                     i.IsMain = true;
                     i.IsValid = true;
+                    i.Customer = customer;
                     customer.Identifies.Add(i);
                     ViewBag.NewGid = i.Gid;
                     ModelState.Clear();

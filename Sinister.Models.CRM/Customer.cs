@@ -59,6 +59,7 @@ namespace Sinister.Models.CRM
             this.Gid = Guid.NewGuid();
         }
         [XmlIgnore]
+        [Required]
         public virtual Customer Customer { get; set; }
         public virtual DictionaryRecord Type { get; set; }
         [XmlIgnore]
@@ -122,6 +123,7 @@ namespace Sinister.Models.CRM
             this.Gid = Guid.NewGuid();
         }
         [XmlIgnore]
+        [Required]
         public virtual Customer Customer { get; set; }
         public virtual DictionaryRecord Type { get; set; }
         [XmlIgnore]

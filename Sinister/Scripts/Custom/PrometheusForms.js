@@ -27,6 +27,27 @@ function BindEvents() {
         $(this).datepicker();
     });
     
+    $("table.dnd").tableDnD({
+        onDragClass: "active",
+
+        onDrop: function (table, row) {
+            var subGid=$(row).find('input[type="hidden"]').val();
+            var newNumber = $(row).index("tr") - 1;
+            refreshId = "";
+            refreshId = $(table).attr("data-refresh");
+            if (refreshId == undefined) refreshId = "";
+            if (refreshId != "") {
+                var formId = $(table).closest("Form").attr("Id");
+                if (formId == undefined) formId = "";
+                else formId = "#" + formId;
+                var subAction = $(table).attr("data-action");
+                if (subAction != undefined) SetField(formId, 'SubAction', subAction);
+                SetField(formId, "SubGid", subGid);
+                SetField(formId, "SubId", newNumber);
+                loadAjax(formId, refreshId, row);
+            }
+        }
+    });
 
     $('.validation-summary-errors').each(function () {
         if ($(this).find('li').first().attr('style') == 'display:none')
@@ -132,55 +153,7 @@ function BindEvents() {
         if (refreshId == undefined) refreshId = "";
         if (refreshId != "") {
             e.preventDefault();
-            $.ajax({
-                dataType: "html",
-                type: $('Form' + formId).attr('Method'),
-                url: $('Form' + formId).attr('Action'),
-                data: $('Form' + formId).serialize(),
-                success: function(data) {
-
-                    //if ($(data).find('#needlogin').html() != null) {
-                    //    return;
-                    //}
-                    //if ($(data).find('#error').html() != null) {
-                    //    return;
-                    //}
-                    if ($(data).find('#' + refreshId + '_body')==undefined)
-                      $('#' + refreshId).html($(data).find('#' + refreshId).html());
-                    
-                    //console.log($(data).find('#' + refreshId + '_body').html());
-
-                    if ($(data).find('#' + refreshId + '_body').find(".field-validation-error").length == 0
-                        && $(data).find('#' + refreshId + '_body').find(".input-validation-error").length == 0) {
-                       cancel = false;
-                       backup = $(data).find('#' + refreshId + '_body').html();
-                        $('#' + refreshId).html($(data).find('#' + refreshId).html());
-                        $(that).closest(".modal").modal('hide');
-                    } else {
-                        $('#' + refreshId + '_body').html($(data).find('#' + refreshId + '_body').html());
-                    }
-                    
-                    $('#' + refreshId).find("a[data-click='true'][data-toggle='modal']").click();
-                    $('#' + refreshId).find("a[data-click='true'][data-toggle='modal']").attr("data-click", "");
-                    //if ($(data).find('#' + refreshId).html() == undefined)
-                    //if (ModalTarget != undefined) {
-                    //   supresswizard=$(ModalTarget).attr("data-supresswizard");
-                    //    //Если выходим из модального окна с подтверждением и попали назад в список -- закрыть окно
-                    //    newstep = $(data).find('#wizardsteps').html();
-                    //    oldstep = $('#wizardsteps').html();
-                    //    if (newstep != oldstep) {
-                    //        //Если мы в мастере, и поменялся шаг -- надо перейти на новый шаг.
-                    //        //Для этого тупо переходим по ссылке
-                    //       if (supresswizard!="true") window.location = $(data).find('.container').attr("data-url");
-                    //    }
-                    //    $(ModalTarget).modal('hide');
-                    //    return;
-                    //}
-                    BindEvents();
-                    // if (SubAction == undefined ||SubAction=="")
-                    // DecorateModal(modalID, ModalTarget);
-                }
-            });
+            loadAjax(formId,refreshId,that);
         }
     }
 
@@ -227,6 +200,57 @@ function BindEvents() {
 //        }
 //    });
 
+}
+function loadAjax(formId, refreshId, that) {
+    $.ajax({
+        dataType: "html",
+        type: $('Form' + formId).attr('Method'),
+        url: $('Form' + formId).attr('Action'),
+        data: $('Form' + formId).serialize(),
+        success: function (data) {
+
+            //if ($(data).find('#needlogin').html() != null) {
+            //    return;
+            //}
+            //if ($(data).find('#error').html() != null) {
+            //    return;
+            //}
+            if ($(data).find('#' + refreshId + '_body') == undefined)
+                $('#' + refreshId).html($(data).find('#' + refreshId).html());
+
+            //console.log($(data).find('#' + refreshId + '_body').html());
+
+            if ($(data).find('#' + refreshId + '_body').find(".field-validation-error").length == 0
+                && $(data).find('#' + refreshId + '_body').find(".input-validation-error").length == 0) {
+                cancel = false;
+                backup = $(data).find('#' + refreshId + '_body').html();
+                $('#' + refreshId).html($(data).find('#' + refreshId).html());
+                $(that).closest(".modal").modal('hide');
+            } else {
+                $('#' + refreshId + '_body').html($(data).find('#' + refreshId + '_body').html());
+            }
+
+            $('#' + refreshId).find("a[data-click='true'][data-toggle='modal']").click();
+            $('#' + refreshId).find("a[data-click='true'][data-toggle='modal']").attr("data-click", "");
+            //if ($(data).find('#' + refreshId).html() == undefined)
+            //if (ModalTarget != undefined) {
+            //   supresswizard=$(ModalTarget).attr("data-supresswizard");
+            //    //Если выходим из модального окна с подтверждением и попали назад в список -- закрыть окно
+            //    newstep = $(data).find('#wizardsteps').html();
+            //    oldstep = $('#wizardsteps').html();
+            //    if (newstep != oldstep) {
+            //        //Если мы в мастере, и поменялся шаг -- надо перейти на новый шаг.
+            //        //Для этого тупо переходим по ссылке
+            //       if (supresswizard!="true") window.location = $(data).find('.container').attr("data-url");
+            //    }
+            //    $(ModalTarget).modal('hide');
+            //    return;
+            //}
+            BindEvents();
+            // if (SubAction == undefined ||SubAction=="")
+            // DecorateModal(modalID, ModalTarget);
+        }
+    });
 }
 
 function DecorateModal(id, modalid) {

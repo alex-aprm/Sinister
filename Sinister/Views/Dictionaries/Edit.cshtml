@@ -2,7 +2,7 @@
 
 @{ViewBag.Header = "Словарь";}
 
-@using (Html.BeginForm("Edit", "Dictionaries", FormMethod.Post, new { @class = "form-horizontal" }))
+@using (Html.BeginForm("Edit", "Dictionaries", FormMethod.Post, new { @class = "form-horizontal", id="DictionaryForm" }))
 {
 @Html.ValidationSummary(true)
 <fieldset>

@@ -48,7 +48,7 @@ namespace Sinister.Controllers
         }
 
         [HttpPost]
-        public virtual ActionResult Create(E entity, string SubAction, Guid? SubGid)
+        public virtual ActionResult Create(E entity, string SubAction, Guid? SubGid, int? SubId)
         {
             entity = (E)ReadDictionaryProps(entity);
             if ((SubAction??"") == "")
@@ -73,7 +73,7 @@ namespace Sinister.Controllers
                     }
                 }
             }
-            else entity = ProcessSubAction(entity, SubAction, SubGid);
+            else entity = ProcessSubAction(entity, SubAction, SubGid, SubId);
             return View(entity);
         }
 
@@ -84,7 +84,7 @@ namespace Sinister.Controllers
         }
 
         [HttpPost]
-        public virtual ActionResult Edit(E entity, string SubAction, Guid? SubGid)
+        public virtual ActionResult Edit(E entity, string SubAction, Guid? SubGid, int? SubId)
         {
             entity = (E) ReadDictionaryProps(entity);
             if ((SubAction??"") == "")
@@ -110,7 +110,7 @@ namespace Sinister.Controllers
                         ModelState.AddModelError("", ex.Message + InnerMessage);
                     }
                 }
-            } else entity = ProcessSubAction(entity, SubAction, SubGid);
+            } else entity = ProcessSubAction(entity, SubAction, SubGid, SubId);
             return View(entity);
         }
 
@@ -165,7 +165,7 @@ namespace Sinister.Controllers
             return View(e);
         }
 
-        protected virtual E ProcessSubAction(E entity, string SubAction, Guid? SubGid)
+        protected virtual E ProcessSubAction(E entity, string SubAction, Guid? SubGid, int? SubId)
         {
             return entity;
         }
